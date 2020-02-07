@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import express from 'express';
 import path from 'path';
 import cors from 'cors';
@@ -7,6 +6,8 @@ import * as Sentry from '@sentry/node';
 import sentryConfig from './config/sentry';
 import 'express-async-errors';
 import routes from './routes';
+
+require('dotenv/config');
 
 class App {
   constructor() {
