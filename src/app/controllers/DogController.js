@@ -1,4 +1,4 @@
-const Dog = require('../models/Dog');
+import Dog from '../models/Dog';
 
 const dog = new Dog();
 
@@ -26,4 +26,4 @@ class DogController {
   }
 }
 
-module.exports = new DogController();
+export default new DogController();
