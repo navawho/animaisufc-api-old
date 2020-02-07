@@ -1,5 +1,5 @@
 {
-  "name": "animaisufc",
+  "name": "animaisufc-api",
   "version": "1.0.0",
   "main": "app.js",
   "repository": "git@github.com:navarrotheus/animaisufc.git",
@@ -12,7 +12,8 @@
     "seedTables": "node src/database/seeds/seed1.js",
     "dropSchema": "node src/database/migrations/dropSchema.js",
     "dev": "nodemon src/server.js",
-    "dev:debug": "nodemon --inspect src/server.js"
+    "dev:debug": "nodemon --inspect src/server.js",
+    "start": "node src/server.js"
   },
   "dependencies": {
     "@sentry/node": "5.12.2",
