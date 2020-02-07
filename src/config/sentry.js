@@ -1,5 +1,5 @@
 require('dotenv/config');
 
-export default {
-  dsn: process.env.S_DNS,
+module.exports = {
+  dns: process.env.S_DNS,
 };

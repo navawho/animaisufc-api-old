@@ -1,8 +1,9 @@
-import multer from 'multer';
-import crypto from 'crypto';
-import { extname, resolve } from 'path';
+const multer = require('multer');
+const crypto = require('crypto');
+const extname = require('path').extname();
+const resolve = require('path').resolve();
 
-export default {
+module.exports = {
   storage: multer.diskStorage({
     destination: resolve(__dirname, '..', '..', 'tmp', 'uploads'),
     filename: (req, file, cb) => {
