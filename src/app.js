@@ -48,4 +48,4 @@ class App {
   }
 }
 
-export default new App().server;
+module.exports = new App().server;

@@ -22,4 +22,4 @@ class File {
   }
 }
 
-export default File;
+module.exports = File;

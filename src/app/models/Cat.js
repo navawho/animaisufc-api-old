@@ -28,4 +28,4 @@ class Cat {
   }
 }
 
-export default Cat;
+module.exports = Cat;

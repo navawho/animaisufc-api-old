@@ -28,4 +28,4 @@ class Dog {
   }
 }
 
-export default Dog;
+module.exports = Dog;

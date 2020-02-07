@@ -1,4 +1,4 @@
-import Cat from '../models/Cat';
+const Cat = require('../models/Cat');
 
 const cat = new Cat();
 
@@ -26,4 +26,4 @@ class CatController {
   }
 }
 
-export default new CatController();
+module.exports = new CatController();

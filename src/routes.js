@@ -1,10 +1,10 @@
-import { Router } from 'express';
-import multer from 'multer';
-import multerConfig from './config/multer';
+const Router = require('express').Router();
+const multer = require('multer');
+const multerConfig = require('./config/multer');
 
-import CatController from './app/controllers/CatController';
-import DogController from './app/controllers/DogController';
-import FileController from './app/controllers/FileController';
+const CatController = require('./app/controllers/CatController');
+const DogController = require('./app/controllers/DogController');
+const FileController = require('./app/controllers/FileController');
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -21,4 +21,4 @@ routes.get('/files', FileController.index);
 routes.get('/files/:id', upload.single('file'), FileController.indexById);
 routes.post('/files', upload.single('file'), FileController.store);
 
-export default routes;
+module.exports = routes;
