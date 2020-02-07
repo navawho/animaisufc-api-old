@@ -3,7 +3,7 @@ const db = require('../../database/pool');
 class Cat {
   async getCats() {
     const cats = db.query(
-      `select c.id, c.file_id, f.name file_name, f.path file_path, c.name, c.description, c.sex from cat c join file f on c.file_id=f.id`
+      `select c.id, c.file_id, f.name file_name, f.path file_path, f.url file_url, c.name, c.description, c.sex from cat c join file f on c.file_id=f.id`
     );
 
     return cats;
@@ -11,7 +11,7 @@ class Cat {
 
   async getCatById(id) {
     const cat = db.query(
-      `select c.id, c.file_id, f.name file_name, f.path file_path, c.name, c.description, c.sex from cat c join file f on c.file_id=f.id where c.id=${id}`
+      `select c.id, c.file_id, f.name file_name, f.path file_path, f.url file_url, c.name, c.description, c.sex from cat c join file f on c.file_id=f.id where c.id=${id}`
     );
 
     return cat;

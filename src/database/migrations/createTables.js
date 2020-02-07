@@ -6,7 +6,8 @@ async function createTables() {
   await db.query(`create table File (
     id serial primary key,
     name varchar(50) not null,
-    path varchar(100) not null unique
+    path varchar not null unique,
+    url varchar unique
     );`);
 
   await db.query(`create table Dog (

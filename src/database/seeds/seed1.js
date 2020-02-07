@@ -3,7 +3,7 @@ const db = require('../client');
 async function seedTables() {
   await db.connect();
 
-  await db.query(`insert into File (name, path) values ('a', 'b')`);
+  await db.query(`insert into File (name, path) values ('rick.jpeg', '78f93667ccba2aa91df065118968a795.jpeg')`);
 
   await db.query(`insert into cat (file_id, name, description, sex, birth, color) values
   (1, 'Xana', 'top', 'f', '2007-04-19', 'Preto e branco'),

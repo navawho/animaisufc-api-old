@@ -8,7 +8,8 @@
   "scripts": {
     "createTables": "node src/database/migrations/createTables.js",
     "ageTrigger": "node src/database/migrations/ageTrigger.js",
-    "createAll": "yarn createTables && yarn ageTrigger",
+    "urlTrigger": "node src/database/migrations/urlTrigger.js",
+    "createAll": "yarn createTables && yarn ageTrigger && yarn urlTrigger",
     "seedTables": "node src/database/seeds/seed1.js",
     "dropSchema": "node src/database/migrations/dropSchema.js",
     "dev": "nodemon src/server.js",

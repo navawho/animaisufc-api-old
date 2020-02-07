@@ -3,7 +3,7 @@ const db = require('../../database/pool');
 class Dog {
   async getDogs() {
     const dogs = db.query(
-      `select d.id, d.file_id, f.name file_name, f.path file_path, d.name, d.description, d.sex from dog d join file f on d.file_id=f.id`
+      `select d.id, d.file_id, f.name file_name, f.path file_path, f.url file_url, d.name, d.description, d.sex from dog d join file f on d.file_id=f.id`
     );
 
     return dogs;
@@ -11,7 +11,7 @@ class Dog {
 
   async getDogById(id) {
     const dog = db.query(
-      `select d.id, d.file_id, f.name file_name, f.path file_path, d.name, d.description, d.sex from dog d join file f on d.file_id=f.id where d.id=${id}`
+      `select d.id, d.file_id, f.name file_name, f.path file_path, f.url file_url, d.name, d.description, d.sex from dog d join file f on d.file_id=f.id where d.id=${id}`
     );
 
     return dog;
