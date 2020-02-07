@@ -1,11 +1,11 @@
-import express from 'express';
-import path from 'path';
-import cors from 'cors';
-import Youch from 'youch';
-import * as Sentry from '@sentry/node';
-import sentryConfig from './config/sentry';
-import 'express-async-errors';
-import routes from './routes';
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+const Youch = require('youch');
+const Sentry = require('@sentry/node');
+const sentryConfig = require('./config/sentry');
+require('express-async-errors');
+const routes = require('./routes');
 
 require('dotenv/config');
 
