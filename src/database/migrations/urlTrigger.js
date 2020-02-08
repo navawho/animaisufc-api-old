@@ -5,7 +5,7 @@ async function urlTrigger() {
 
   await db.query(`create function url() returns trigger as $$
   begin
-  update file set url = concat('http://animais-ufc.herokuapp.com/files/', path) where id=new.id;
+  update file set url = concat('${process.env.API_URL}', path) where id=new.id;
   return new;
   end; $$
   language plpgsql;`);
