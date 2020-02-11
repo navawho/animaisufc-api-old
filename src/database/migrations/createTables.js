@@ -19,7 +19,7 @@ async function createTables() {
     sex varchar(1) not null check (sex ILIKE 'm' or sex ILIKE 'f'),
     adopted bool default false,
     birth date,
-    age interval,
+    age interval
     );`);
 
   await db.end();
