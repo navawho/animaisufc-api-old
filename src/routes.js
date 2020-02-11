@@ -11,8 +11,8 @@ const upload = multer(multerConfig);
 routes.get('/animals', AnimalController.index);
 routes.get('/animals/:id', AnimalController.indexById);
 
-routes.get('/animals/dogs', AnimalController.indexDogs);
-routes.get('/animals/cats', AnimalController.indexCats);
+routes.get('/dogs', AnimalController.indexDogs);
+routes.get('/cats', AnimalController.indexCats);
 
 routes.post('/animals', AnimalController.store);
 
