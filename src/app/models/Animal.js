@@ -11,7 +11,7 @@ class Animal {
 
   async getDogs() {
     const dogs = db.query(
-      `select a.id, a.file_id, f.name file_name, f.path file_path, f.url file_url, a.name, a.description, a.sex from animal a join file f on a.file_id=f.id where a.type ILIKE c`
+      `select a.id, a.name, a.description, a.sex, a.file_id, f.name file_name, f.path file_path, f.url file_url from animal a join file f on a.file_id=f.id where a.type ILIKE 'c'`
     );
 
     return dogs;
@@ -19,7 +19,7 @@ class Animal {
 
   async getCats() {
     const cats = db.query(
-      `select a.id, a.file_id, f.name file_name, f.path file_path, f.url file_url, a.name, a.description, a.sex from animal a join file f on a.file_id=f.id where a.type ILIKE g`
+      `select a.id, a.name, a.description, a.sex, a.file_id, f.name file_name, f.path file_path, f.url file_url from animal a join file f on a.file_id=f.id where a.type ILIKE 'g'`
     );
 
     return cats;
