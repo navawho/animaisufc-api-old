@@ -2,20 +2,18 @@ import { Router } from 'express';
 import multer from 'multer';
 import multerConfig from './config/multer';
 
-import CatController from './app/controllers/CatController';
-import DogController from './app/controllers/DogController';
-import FileController from './app/controllers/FileController';
+import AnimalController from './app/controllers/AnimalController';
 
 const routes = new Router();
 const upload = multer(multerConfig);
 
-routes.get('/cats', CatController.index);
-routes.get('/cats/:id', CatController.indexById);
-routes.post('/cats', CatController.store);
+routes.get('/animals', AnimalController.index);
+routes.get('/animals/:id', AnimalController.indexById);
 
-routes.get('/dogs', DogController.index);
-routes.get('/dogs/:id', DogController.indexById);
-routes.post('/dogs', DogController.store);
+routes.get('/animals/dogs', AnimalController.indexDogs);
+routes.get('/animals/cats', AnimalController.indexCats);
+
+routes.post('/animals', AnimalController.store);
 
 routes.get('/files', FileController.index);
 routes.get('/files/:id', upload.single('file'), FileController.indexById);
