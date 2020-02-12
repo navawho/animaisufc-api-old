@@ -15,11 +15,11 @@ async function createTables() {
     file_id integer references File(id) on update cascade on delete set null,
     type varchar(1) not null check (type ILIKE 'c' or type ILIKE 'g'),
     name varchar(50) not null,
-    description varchar(500) not null,
+    description varchar not null,
     sex varchar(1) not null check (sex ILIKE 'm' or sex ILIKE 'f'),
     adopted bool default false,
     birth date,
-    age interval
+    age varchar
     );`);
 
   await db.end();
