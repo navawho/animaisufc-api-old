@@ -30,9 +30,9 @@ class AnimalController {
   }
 
   async store(req, res) {
-    const { name, description, sex } = req.body;
+    const { type, name, description, sex, color, birth } = req.body;
 
-    const { rows } = await animal.createAnimal(type, name, description, sex);
+    const { rows } = await animal.createAnimal(type, name, description, sex, color, birth);
 
     return res.json(rows[0]);
   }
