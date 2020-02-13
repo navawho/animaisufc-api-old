@@ -30,7 +30,7 @@ async function createTables() {
     updated_at timestamptz default null
     );`);
 
-  await db.query(`create table User (
+  await db.query(`create table userTable (
     id serial primary key not null,
     name varchar not null,
     email varchar not null unique,

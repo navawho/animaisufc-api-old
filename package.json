@@ -13,6 +13,7 @@
     "createAll": "yarn createTables && yarn ageTrigger && yarn urlTrigger && yarn updatedAtTrigger",
     "seedTables": "node src/database/seeds/seed1.js",
     "dropSchema": "node src/database/migrations/dropSchema.js",
+    "resetDb": "yarn dropSchema && yarn createAll && yarn seedTables",
     "dev": "nodemon src/server.js",
     "dev:debug": "nodemon --inspect src/server.js",
     "start": "sucrase-node src/server.js"
