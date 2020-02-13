@@ -3,7 +3,7 @@ const db = require('../client');
 async function ageTrigger() {
   await db.connect();
 
-  await db.query(`create function age_animal() returns trigger as $$
+  await db.query(`create or replace function age_animal() returns trigger as $$
 	declare
   	ageinterval interval :=	age(current_date, new.birth);
   	years double precision := EXTRACT(years FROM ageinterval);

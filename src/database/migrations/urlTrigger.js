@@ -3,7 +3,7 @@ const db = require('../client');
 async function urlTrigger() {
   await db.connect();
 
-  await db.query(`create function url() returns trigger as $$
+  await db.query(`create or replace function url() returns trigger as $$
   begin
   update file set url = concat('${process.env.API_URL}', path) where id=new.id;
   return new;
