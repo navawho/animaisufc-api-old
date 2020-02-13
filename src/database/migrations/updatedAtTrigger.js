@@ -14,11 +14,11 @@ async function updatedAtTrigger() {
   $$ language 'plpgsql';`);
 
   await db.query(`CREATE TRIGGER updated_at_file
-  BEFORE UPDATE ON file
+  BEFORE UPDATE ON files
   FOR EACH ROW EXECUTE PROCEDURE updated_at();`);
 
   await db.query(`CREATE TRIGGER updated_at_animal
-  BEFORE UPDATE ON animal
+  BEFORE UPDATE ON animals
   FOR EACH ROW EXECUTE PROCEDURE updated_at();`);
 
   await db.end();

@@ -1,18 +1,16 @@
 import File from '../models/File';
 
-const file = new File();
-
 class FileController {
   async store(req, res) {
     const { originalname: name, filename: path } = req.file;
 
-    const { rows } = await file.create(name, path);
+    const { rows } = await File.create(name, path);
 
     return res.json(rows[0]);
   }
 
   async index(req, res) {
-    const { rows } = await file.getFiles();
+    const { rows } = await File.getFiles();
 
     return res.json(rows);
   }
@@ -20,7 +18,7 @@ class FileController {
   async indexById(req, res) {
     const { id } = req.params;
 
-    const { rows } = await file.getFileById(id);
+    const { rows } = await File.getFileById(id);
 
     return res.json(rows[0]);
   }
