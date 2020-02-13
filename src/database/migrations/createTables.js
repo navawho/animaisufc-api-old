@@ -10,7 +10,7 @@ async function createTables() {
     name varchar not null,
     path varchar not null unique,
     url varchar unique,
-    created_at timestamptz default current_timestamp,
+    created_at timestamptz default current_timestamp not null,
     updated_at timestamptz default null
     );`);
 
@@ -21,14 +21,24 @@ async function createTables() {
     name varchar not null,
     description varchar not null,
     sex varchar(1) not null check (sex ILIKE 'm' or sex ILIKE 'f'),
-    adopted bool default false,
+    adopted bool default false not null,
     birth date,
     age varchar,
     color varchar,
     port varchar,
-    created_at timestamptz default current_timestamp,
+    created_at timestamptz default current_timestamp not null,
     updated_at timestamptz default null
     );`);
+
+  await db.query(`create table User (
+    id serial primary key not null,
+    name varchar not null,
+    email varchar not null unique,
+    password_hash varchar not null,
+    admin bool default false not null,
+    created_at timestamptz default current_timestamp not null,
+    updated_at timestamptz default null
+  );`);
 
   await db.end();
 }
