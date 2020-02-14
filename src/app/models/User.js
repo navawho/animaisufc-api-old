@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs';
+
 const db = require('../../database/pool');
 
 class User {
@@ -25,6 +27,16 @@ class User {
     const user = db.query(`select * from users where email='${email}'`);
 
     return user;
+  }
+
+  async hashPassword(password) {
+    const password_hash = await bcrypt.hash(password, 8);
+
+    return password_hash;
+  }
+
+  async checkPassword(password, password_hash) {
+    return bcrypt.compare(password, password_hash);
   }
 }
 
