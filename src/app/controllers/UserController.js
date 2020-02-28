@@ -1,8 +1,30 @@
+import * as Yup from 'yup';
 import User from '../models/User';
 
 class UserController {
   async store(req, res) {
-    const { name, email, password } = req.body;
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      email: Yup.string()
+        .email()
+        .required(),
+      password: Yup.string()
+        .required()
+        .min(6),
+      confirmPassword: Yup.string()
+        .required()
+        .when('password', (password, field) =>
+          password ? field.required().oneOf([Yup.ref('password')]) : field
+        ),
+      phone: Yup.string().min(11),
+      admin: Yup.bool(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const { name, phone, admin, email, password } = req.body;
 
     const userExists = await User.getUserByEmail(email);
 
@@ -10,31 +32,63 @@ class UserController {
       return res.status(400).json({ error: 'Usuário já existe.' });
     }
 
+    if (admin === true) {
+      return res.status(400).json({ error: 'Insuficient permissions. ' });
+    }
+
     const password_hash = await User.hashPassword(password);
 
-    const { rows } = await User.create(name, email, password_hash);
+    const { rows } = await User.create({
+      name,
+      email,
+      phone,
+      admin,
+      password_hash,
+    });
 
-    const { id, admin } = rows[0];
+    const { id } = rows[0];
 
     return res.json({
       id,
       name,
+      phone,
       email,
       admin,
     });
   }
 
   async update(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      email: Yup.string().email(),
+      phone: Yup.number().min(10),
+      oldPassword: Yup.string(),
+      password: Yup.string()
+        .min(6)
+        .when('oldPassword', (oldPassword, field) =>
+          oldPassword ? field.required() : field
+        ),
+      confirmPassword: Yup.string().when('password', (password, field) =>
+        password ? field.required().oneOf([Yup.ref('password')]) : field
+      ),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
     const { email, oldPassword } = req.body;
 
-    const { rows } = await User.getUserById(req.userId);
+    const { userId } = req;
 
-    const user = rows[0];
+    const { rows: userRows } = await User.getUserById(userId);
 
-    if (email !== user.email) {
+    const user = userRows[0];
+
+    if (email && email !== user.email) {
       const userExists = await User.getUserByEmail(email);
 
-      if (userExists.rowCount === 1) {
+      if (userExists.rowCount >= 1) {
         return res.status(400).json({ error: 'Usuário já existe.' });
       }
     }
@@ -46,14 +100,47 @@ class UserController {
       return res.status(401).json({ error: 'As senhas não correspondem.' });
     }
 
-    const { id, name, admin } = await User.update(req.userId, req.body.name);
+    const { name, admin, phone, password } = req.body;
 
-    return res.json({
-      id,
+    if (admin) {
+      return res.status(400).json({ error: 'Insuficient permissions' });
+    }
+
+    const { rows } = await User.update({
+      id: userId,
+      password_hash: User.hashPassword(password),
       name,
       email,
-      admin,
+      phone,
     });
+
+    const userUpdated = rows[0];
+
+    return res.json({
+      id: userUpdated.id,
+      name: userUpdated.name,
+      email: userUpdated.email,
+      phone: userUpdated.phone,
+      admin: userUpdated.admin,
+    });
+  }
+
+  async index(req, res) {
+    const { rows } = await User.getUsers();
+
+    return res.json(rows);
+  }
+
+  async indexById(req, res) {
+    const { rows } = await User.getUserById(req.userId);
+
+    return res.json(rows[0]);
+  }
+
+  async remove(req, res) {
+    const { rows } = await User.deleteUserById(req.userId);
+
+    return res.json(rows[0]);
   }
 }
 

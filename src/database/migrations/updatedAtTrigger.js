@@ -21,6 +21,10 @@ async function updatedAtTrigger() {
   BEFORE UPDATE ON animals
   FOR EACH ROW EXECUTE PROCEDURE updated_at();`);
 
+  await db.query(`CREATE TRIGGER updated_at_users
+  BEFORE UPDATE ON users
+  FOR EACH ROW EXECUTE PROCEDURE updated_at();`);
+
   await db.end();
 }
 

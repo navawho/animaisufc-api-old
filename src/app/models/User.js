@@ -3,28 +3,56 @@ import bcrypt from 'bcryptjs';
 const db = require('../../database/pool');
 
 class User {
-  async create(name, email, password_hash) {
-    const file = db.query(
-      `insert into users (name, email, password_hash) values ('${name}', '${email}', '${password_hash}') returning *`
+  async create(json) {
+    const { name, email, phone, admin, password_hash } = json;
+
+    const { rows } = await db.query(
+      `insert into users (name, email, password_hash) values ('${name}', '${email}', '${password_hash}') returning id`
     );
 
-    return file;
+    const userId = rows[0].id;
+
+    if (phone) {
+      await db.query(`update users set phone='${phone}' where id=${userId}`);
+    }
+
+    if (admin) {
+      await db.query(`update users set admin=${admin} where id=${userId}`);
+    }
+
+    const user = await db.query(
+      `select id, name, email, phone, admin from users where id=${userId}`
+    );
+
+    return user;
   }
 
   async getUsers() {
-    const users = db.query(`select * from users`);
+    const users = await db.query(`select id, name, email, admin from users`);
 
     return users;
   }
 
   async getUserById(id) {
-    const user = db.query(`select * from users where id=${id}`);
+    const user = await db.query(
+      `select id, name, email, admin from users where id=${id}`
+    );
+
+    return user;
+  }
+
+  async deleteUserById(id) {
+    const user = await db.query(
+      `delete from users where id=${id} returning id, name, email, admin`
+    );
 
     return user;
   }
 
   async getUserByEmail(email) {
-    const user = db.query(`select * from users where email='${email}'`);
+    const user = await db.query(
+      `select id, name, email, admin, password_hash from users where email='${email}'`
+    );
 
     return user;
   }
@@ -39,57 +67,32 @@ class User {
     return bcrypt.compare(password, password_hash);
   }
 
-  async update(id, _name, _email, _newPassword) {
-    if (_name) {
-      if (_email) {
-        if (_newPassword) {
-          const user = db.query(
-            `update users set password_hash = '${_newPassword}', name = '${_name}', email = '${_email}' where id='${id}' returning id, name, email, password_hash, admin, created_at, updated_at`
-          );
+  async update(json) {
+    const { id, name, email, phone, password_hash } = json;
 
-          return user;
-        }
-        const user = db.query(
-          `update users set name = '${_name}', email = '${_email}' where id='${id}' returning id, name, email, password_hash, admin, created_at, updated_at`
-        );
-
-        return user;
-      }
-      if (_newPassword) {
-        const user = db.query(
-          `update users set password_hash = '${_newPassword}', name = '${_name}' where id='${id}' returning id, name, email, password_hash, admin, created_at, updated_at`
-        );
-
-        return user;
-      }
-      const user = db.query(
-        `update users set name = '${_name}' where id='${id}' returning id, name, email, password_hash, admin, created_at, updated_at`
-      );
-
-      return (await user).rows[0];
+    if (name) {
+      await db.query(`update users set name='${name}' where id=${id}`);
     }
-    if (_email) {
-      if (_newPassword) {
-        const user = db.query(
-          `update users set password_hash = '${_newPassword}', email = '${_email}' where id='${id}' returning id, name, email, password_hash, admin, created_at, updated_at`
-        );
 
-        return user;
-      }
-      const user = db.query(
-        `update users set email = '${_email}' where id='${id}' returning id, name, email, password_hash, admin, created_at, updated_at`
-      );
-
-      return user;
+    if (email) {
+      await db.query(`update users set email='${email}' where id=${id}`);
     }
-    if (_newPassword) {
-      const user = db.query(
-        `update users set password_hash = '${_newPassword}' where id='${id}' returning id, name, email, password_hash, admin, created_at, updated_at`
-      );
 
-      return user;
+    if (phone) {
+      await db.query(`update users set phone='${phone}' where id=${id}`);
     }
-    return null;
+
+    if (password_hash) {
+      await db.query(
+        `update users set password_hash='${password_hash}' where id=${id}`
+      );
+    }
+
+    const user = await db.query(
+      `select id, name, email, phone, admin from users where id=${id}`
+    );
+
+    return user;
   }
 }
 

@@ -14,13 +14,11 @@ class SessionController {
       return res.status(401).json({ error: 'Usuário não foi encontrado.' });
     }
 
-    const { password_hash } = user.rows[0];
+    const { id, name, password_hash } = user.rows[0];
 
     if (!(await User.checkPassword(password, password_hash))) {
       res.status(401).json({ error: 'Senha incorreta.' });
     }
-
-    const { id, name } = user.rows[0];
 
     return res.json({
       user: {
