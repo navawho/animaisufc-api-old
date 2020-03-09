@@ -21,18 +21,20 @@ routes.get('/cats', AnimalController.indexCats);
 routes.get('/files', FileController.index);
 routes.get('/files/:id', upload.single('file'), FileController.indexById);
 
-routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 
+routes.post('/users', UserController.store);
+
 routes.use(authMiddleware);
+routes.use(authAdminMiddleware);
 
 routes.get('/users', UserController.indexById);
 routes.put('/users', UserController.update);
 routes.delete('/users', UserController.remove);
 
-routes.use(authAdminMiddleware);
-
 routes.post('/animals', AnimalController.store);
+routes.put('/animals/:id', AnimalController.update);
+routes.delete('/animals/:id', AnimalController.delete);
 
 routes.post('/files', upload.single('file'), FileController.store);
 

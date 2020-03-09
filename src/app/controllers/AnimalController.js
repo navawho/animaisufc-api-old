@@ -28,17 +28,19 @@ class AnimalController {
   }
 
   async store(req, res) {
-    const { type, name, description, sex, color, birth, port } = req.body;
+    const { rows } = await Animal.createAnimal(req.body);
 
-    const { rows } = await Animal.createAnimal(
-      type,
-      name,
-      description,
-      sex,
-      color,
-      birth,
-      port
-    );
+    return res.json(rows[0]);
+  }
+
+  async update(req, res) {
+    const { rows } = await Animal.update(req.params.id, req.body);
+
+    return res.json(rows[0]);
+  }
+
+  async delete(req, res) {
+    const { rows } = await Animal.delete(req.params.id, req.body);
 
     return res.json(rows[0]);
   }

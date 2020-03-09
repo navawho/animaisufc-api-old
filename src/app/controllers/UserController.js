@@ -29,11 +29,11 @@ class UserController {
     const userExists = await User.getUserByEmail(email);
 
     if (userExists.rowCount === 1) {
-      return res.status(400).json({ error: 'Usuário já existe.' });
+      return res.status(400).json({ error: 'User already exists' });
     }
 
     if (admin === true) {
-      return res.status(400).json({ error: 'Insuficient permissions. ' });
+      return res.status(400).json({ error: 'Insuficient permissions' });
     }
 
     const password_hash = await User.hashPassword(password);
