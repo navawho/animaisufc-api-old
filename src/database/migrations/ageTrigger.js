@@ -13,27 +13,27 @@ async function ageTrigger() {
   	when years = 0 then
     	case
       	when months = 1 then
-      		update animal set age = concat(months, ' mês') where id=new.id;
+      		update animals set age = concat(months, ' mês') where id=new.id;
       	else
-      		update animal set age = concat(months, ' meses') where id=new.id;
+      		update animals set age = concat(months, ' meses') where id=new.id;
        end case;
   	when years = 1 then
     	case
       	when months = 0 then
-      		update animal set age = concat(years, ' ano') where id=new.id;
+      		update animals set age = concat(years, ' ano') where id=new.id;
       	when months = 1 then
-      		update animal set age = concat(years, ' ano e ', months, ' mês') where id=new.id;
+      		update animals set age = concat(years, ' ano e ', months, ' mês') where id=new.id;
         else
-        	update animal set age = concat(years, ' ano e ', months, ' meses') where id=new.id;
+        	update animals set age = concat(years, ' ano e ', months, ' meses') where id=new.id;
       end case;
     else
     	case
       	when months = 0 then
-        	update animal set age = concat(years, ' anos') where id=new.id;
+        	update animals set age = concat(years, ' anos') where id=new.id;
         when months = 1 then
-        	update animal set age = concat(years, ' anos e ', months, ' mês') where id=new.id;
+        	update animals set age = concat(years, ' anos e ', months, ' mês') where id=new.id;
         else
-        	update animal set age = concat(years, ' anos e ', months, ' meses') where id=new.id;
+        	update animals set age = concat(years, ' anos e ', months, ' meses') where id=new.id;
       end case;
   end case;
   return new;
@@ -41,12 +41,12 @@ async function ageTrigger() {
   language plpgsql;`);
 
   await db.query(`create trigger age_animal_insert
-  after insert on animal
+  after insert on animals
   for each row
   execute procedure age_animal();`);
 
   await db.query(`create trigger age_animal_update
-  after update of birth on animal
+  after update of birth on animals
   for each row
   execute procedure age_animal();`);
 
