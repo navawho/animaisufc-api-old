@@ -33,6 +33,8 @@ routes.delete('/users', UserController.remove);
 routes.use(authAdminMiddleware);
 
 routes.post('/animals', AnimalController.store);
+routes.put('/animals/:id', AnimalController.update);
+routes.delete('/animals/:id', AnimalController.delete);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
