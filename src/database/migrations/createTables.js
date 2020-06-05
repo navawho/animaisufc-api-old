@@ -30,17 +30,6 @@ async function createTables() {
     updated_at timestamptz default null
     );`);
 
-  await db.query(`create table users (
-      id serial primary key not null,
-      name varchar not null,
-      email varchar not null unique,
-      phone varchar,
-      password_hash varchar not null,
-      admin bool default false not null,
-      created_at timestamptz default current_timestamp not null,
-      updated_at timestamptz default null
-      );`);
-
   await db.end();
 }
 
